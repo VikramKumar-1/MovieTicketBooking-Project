@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QuickBook – Movies & Events</title>
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+
+    /* Navbar */
+    header {
+      background-color: #222;
+      color: #fff;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+    }
+
+    nav a {
+      color: #fff;
+      margin-left: 1.5rem;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* Auto-sliding Banner Styles */
+    
+  
+  .banner-slider {
+    /*width: 100%;*/
+    height: 450px; /* Adjust height as needed 
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 2rem;
+    */
+    width: 90%;
+    /*max-width: 1200px;*/
+  margin: 2rem auto;
+  height: 500px;
+  overflow: hidden;
+  position: relative;
+  }
+
+  .slides-container {
+    /*display: flex;
+    width: 250%;
+    height: 100%;
+    animation: slideAnimation 25s infinite;*/
+    display: flex;
+   width: 250%;
+   height: 100%;
+   animation: slideAnimation 25s infinite;
+    
+  }
+
+  .slide {
+    width: 100%;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .slide img {
+    width: 40%;
+    height: 100%;
+    margin-top: 10px;
+    
+    object-fit: fill;
+
+   
+  
+    
+    /*object-fit: contain; /* Ensures images fit without cropping */
+    object-position: center; /* Keeps the image centered if letterboxing occurs */
+  }
+
+  .banner-content {
+    position: absolute;
+    bottom: 20px;
+    left: 40px;
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    backdrop-filter: blur(4px);
+  }
+
+  .banner-content h2 {
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+  }
+
+  .banner-btn {
+    background-color: #e50914;
+    color: white;
+    padding: 0.5rem 1.2rem;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    display: inline-block;
+  }
+
+  .banner-btn:hover {
+    background-color: #c40812;
+  }
+
+  @keyframes slideAnimation {
+    0%   { transform: translateX(0%); }
+    20%  { transform: translateX(0%); }
+    25%  { transform: translateX(-100%); }
+    40%  { transform: translateX(-100%); }
+    45%  { transform: translateX(-200%); }
+    60%  { transform: translateX(-200%); }
+    65%  { transform: translateX(-300%); }
+    80%  { transform: translateX(-300%); }
+    85%  { transform: translateX(-400%); }
+    100% { transform: translateX(-400%); }
+  }
+
+
+
+    /* Section layout */
+    .section {
+      padding: 2rem;
+    }
+
+    .section h2 {
+      margin-bottom: 1rem;
+      font-size: 1.6rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* Cards */
+    .card {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      overflow: hidden;
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card img {
+      width: 100%;
+      height: 380px;
+      /*object-fit: cover;*/
+      object-fit: fill;
+    }
+
+    .card .info {
+      padding: 1rem;
+    }
+
+    .info h3 {
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    .info p {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 1rem;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: #e50914;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      background-color: #c40812;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: #222;
+      color: white;
+      margin-top: 3rem;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      overflow: auto;
+      padding-top: 60px;
+    }
+
+    .modal-content {
+      background-color: white;
+      margin: 5% auto;
+      padding: 2rem;
+      border-radius: 10px;
+      width: 30%;
+      max-width: 500px;
+      position: relative;
+    }
+
+    .modal h2 {
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .modal input {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .modal button {
+      width: 100%;
+      padding: 0.8rem;
+      background-color: #e50914;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .modal button:hover {
+      background-color: #c40812;
+    }
+
+    .close {
+      color: #aaa;
+      font-size: 2rem;
+      font-weight: bold;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      cursor: pointer;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* When Modal is open, make it visible */
+    .modal.show {
+      display: block;
+    }
+
+    #loginBtn, #signupBtn {
+      color: white;
+      background-color: #222;
+      padding: 0.6rem 1.2rem;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: 500;
+      margin-left: 1rem;
+    }
+
+    #loginBtn:hover, #signupBtn:hover {
+      background-color: #e50914;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .banner-slider {
+        height: 250px;
+      }
+
+      .banner-content {
+        bottom: 10px;
+        left: 20px;
+        padding: 0.8rem 1rem;
+      }
+
+      .banner-content h2 {
+        font-size: 1.2rem;
+      }
+
+      .banner-btn {
+        padding: 0.4rem 1rem;
+      }
+
+      .card img {
+        height: 200px;
+      }
+
+      .modal-content {
+        width: 90%;
+        padding: 1rem;
+      }
+
+      .modal h2 {
+        font-size: 1.3rem;
+      }
+    }
+  /*Rating*/
+ .ratings {
+  margin: 0.5rem 0 1rem 0;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 1rem;
+}
+
+.ratings span {
+  font-size: 0.95rem;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  backdrop-filter: blur(4px);
+}
+
+.imdb {
+  color: #f0c505;
+}
+
+.rotten {
+  color: #ff6347;
+}
+
+
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header>
+    <h1>QuickBook</h1>
+    <nav>
+      <a href="#movies">Movies</a>
+      <a href="#events">Events</a>
+      <!-- Add Login and SignUp buttons -->
+      <a href="#login" id="loginBtn">Login</a>
+      <a href="#signup" id="signupBtn">Sign Up</a>
+    </nav>
+  </header>
+
+  <!-- Auto-Sliding Banner with Book Buttons -->
+  <section class="banner-slider">
+    <div class="slides-container">
+      <div class="slide">
+        <img src="/Users/vikur/Vikram movie booking/deadpool2_5a659a75.jpeg" alt="deadpool">
+        <div class="banner-content">
+          <h2>Deadpool 2</h2>
+          <div class="ratings">
+            <span class="imdb">⭐ IMDb: 7.9</span>
+            
+          </div>
+          <a href="#movies" class="banner-btn">Book Now</a>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="/Users/vikur/Vikram movie booking/avatar-the-way-of-water-poster.webp" alt="Avatar 2">
+        <div class="banner-content">
+          <h2>Avatar 2</h2>
+          <div class="ratings">
+            <span class="imdb">⭐ IMDb: 7.9</span>
+            
+          </div>
+          <a href="#movies" class="banner-btn">Book Now</a>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="/Users/vikur/Vikram movie booking/sikander" alt="Barbie">
+        <div class="banner-content">
+          <h2>Sikander</h2>
+          <div class="ratings">
+            <span class="imdb">⭐ IMDb: 7.9</span>
+            
+          </div>
+          <a href="#movies" class="banner-btn">Book Now</a>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="/Users/vikur/Downloads/idm/oppnhimer.jpg" alt="Oppenheimer">
+        <div class="banner-content">
+          <h2>Oppenheimer</h2>
+          <div class="ratings">
+            <span class="imdb">⭐ IMDb: 7.9</span>
+            
+          </div>
+          <a href="#movies" class="banner-btn">Book Now</a>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="/Users/vikur/Vikram movie booking/Captain-America.jpg" alt="Jawan">
+        <div class="banner-content">
+          <h2>Captain America : Brave World</h2>
+          <div class="ratings">
+            <span class="imdb">⭐ IMDb: 7.9</span>
+            
+          </div>
+          <a href="#movies" class="banner-btn">Book Now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Upcoming Releases Section -->
+  <section id="upcoming" class="section">
+    <h2>Upcoming Releases 🍿</h2>
+    <div class="upcoming-wrapper">
+      <button class="scroll-btn left">&#10094;</button>
+    
+      <div class="scroll-container" id="upcoming-scroll">
+
+    <div class="grid">
+      <div class="card">
+        <img src="/Users/vikur/Vikram movie booking/deadpool3.jpg" alt="Deadpool 3" />
+        <div class="info">
+          <h3>Deadpool 3</h3>
+          <p>Coming Soon</p>
+          <a href="#" class="btn" style="background-color: gray; cursor: default;">Coming Soon</a>
+        </div>
+      </div>
+      <div class="card">
+        <img src="/Users/vikur/Vikram movie booking/batman2 card.jpg" alt="The Batman 2" />
+        <div class="info">
+          <h3>The Batman 2</h3>
+          <p>Coming Soon</p>
+          <a href="#" class="btn" style="background-color: gray; cursor: default;">Coming Soon</a>
+        </div>
+      </div>
+      
+        
+       <div class="card">
+          <img src="/Users/vikur/Vikram movie booking/kgf.jpg" alt="kgf" />
+        <div class="info">
+          <h3>KGF: Chapter 3</h3>
+          <p>Coming Soon</p>
+          <a href="#" class="btn" style="background-color: gray; cursor: default;">Coming Soon</a>
+        </div>
+      </div>
+      <div class="card">
+        <img src="/Users/vikur/Vikram movie booking/batman2 card.jpg" alt="The Batman 2" />
+        <div class="info">
+          <h3>The Batman 2</h3>
+          <p>Coming Soon</p>
+          <a href="#" class="btn" style="background-color: gray; cursor: default;">Coming Soon</a>
+        </div>
+      </div>
+
+      
+
+      
+      
+
+      <div class="card">
+        <img src="/Users/vikur/Vikram movie booking/spiderman.jpg" alt="Spiderman" />
+        <div class="info">
+          <h3>Spider-Man: Beyond The Spiderverse</h3>
+          <p>Coming Soon</p>
+          <a href="#" class="btn" style="background-color: gray; cursor: default;">Coming Soon</a>
+        </div>
+      </div>
+    </div>
+    <button class="scroll-btn right">&#10095;</button>
+   </div>
+  </section>
+
+  <!-- Present Movie Ticket Booking Section -->
+  <section id="movies" class="section">
+    <h2>Now Playing In Cinemas 🎬</h2>
+    <div class="grid">
+      <div class="card">
+        <img src="/Users/vikur/Vikram movie booking/inception card" alt="Inception" />
+        <div class="info">
+          <h3>Inception</h3>
+          <div class="ratings">
+            <span class="imdb">⭐ IMDb: 7.9</span>
+            <span class="rotten">🍅 Rotten Tomatoes: 76%</span>
+          </div>
+          <p>Now Playing</p>
+          <a href="#modal" class="btn">Book Now</a>
+        </div>
+      </div>
+      <div class="card">
+        <img src="/Users/vikur/Vikram movie booking/avatar2.jpg" alt="Avatar 2" />
+        <div class="info">
+          <h3>Avatar 2</h3>
+        
+          <div class="ratings">
+            <span class="imdb">⭐ IMDb: 7.9</span>
+            <span class="rotten">🍅 Rotten Tomatoes: 76%</span>
+          </div>
+          <p>Now Playing</p>
+          <a href="#modal" class="btn">Book Now</a>
+        </div>
+      </div>
+      <div class="card">
+        <img src="/Users/vikur/Vikram movie booking/captain america card.jpg" alt="Barbie" />
+        <div class="info">
+          <h3>Captain America : Brave World</h3>
+          <div class="ratings">
+            <span class="imdb">⭐ IMDb: 7.9</span>
+            <span class="rotten">🍅 Rotten Tomatoes: 76%</span>
+          </div>
+          <p>Now Playing</p>
+          <a href="#modal" class="btn">Book Now</a>
+        </div>
+      </div>
+      <div class="card">
+        <img src="/Users/vikur/Vikram movie booking/oppenhimer card.jpg "alt="Oppenheimer" />
+        <div class="info">
+          <h3>Oppenheimer</h3>
+          <div class="ratings">
+            <span class="imdb">⭐ IMDb: 7.9</span>
+            <span class="rotten">🍅 Rotten Tomatoes: 76%</span>
+          </div>
+          <p>Now Playing</p>
+          <a href="#modal" class="btn">Book Now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 QuickBook | All Rights Reserved</p>
+  </footer>
+
+ 
+  
+</body>
+</html>
